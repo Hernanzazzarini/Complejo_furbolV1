@@ -4,45 +4,22 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import ReservasAdmin from "./pages/ReservasAdmin.jsx";
-import Login from "./pages/Login.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import CrearAdmin from "./pages/CrearAdmin.jsx";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 
 function App() {
   return (
     <Router>
       <Navbar />
-
       <Routes>
-        {/* Público */}
         <Route path="/" element={<Home />} />
-
-        {/* Login administrador */}
+        <Route path="/reservas-admin" element={<ReservasAdmin />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        {/* Admin protegido */}
-        <Route
-          path="/reservas-admin"
-          element={
-            <ProtectedRoute>
-              <ReservasAdmin />
-            </ProtectedRoute>
-          }
-         
 
-        />
-        <Route
-           path="/crear-admin"
-           element={
-          <ProtectedRoute>
-             <CrearAdmin />
-          </ProtectedRoute>
-         }
-         />
       </Routes>
-
-
       <Footer />
     </Router>
   );

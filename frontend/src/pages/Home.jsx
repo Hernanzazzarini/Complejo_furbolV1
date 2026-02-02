@@ -159,7 +159,7 @@ const Home = () => {
       <div className="hero">
       <video className="video-hero" src={canchaVideo} autoPlay muted loop />
         <div className="hero-text">
-          <h1>Complejo de futbol 5 </h1>
+          <h1>Complejo de Futbol </h1>
           <p>Selecciona tu fecha y horario disponible</p>
         </div>
       </div>
@@ -200,5 +200,3 @@ const Home = () => {
 };
 
 export default Home;
-
-

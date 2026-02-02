@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { login } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -13,45 +12,52 @@ const Login = () => {
     setError("");
 
     try {
-      await login(username, password);
-      navigate("/admin"); // va directo a ReservasAdmin
+      const res = await fetch("http://127.0.0.1:8000/api/auth/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.detail || "Credenciales incorrectas");
+
+      // Guardamos tokens
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
+
+      // Guardamos el nombre de usuario
+      localStorage.setItem("username", username);  // <--- NUEVO
+
+      navigate("/"); // Redirige al home
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "400px" }}>
-      <h3 className="mb-3">Login Administrador</h3>
-
+    <div className="container mt-4" style={{ maxWidth: 400 }}>
+      <h3>Login</h3>
       {error && <div className="alert alert-danger">{error}</div>}
-
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label>Usuario</label>
-          <input
-            className="form-control"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label>Contraseña</label>
-          <input
-            type="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button className="btn btn-success w-100">
-          Ingresar
-        </button>
+        <input
+          className="form-control mb-2"
+          placeholder="Usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          className="form-control mb-2"
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className="btn btn-success w-100">Entrar</button>
       </form>
     </div>
   );
 };
 
 export default Login;
+

@@ -1,8 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaFutbol } from "react-icons/fa";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("access");
+  const username = localStorage.getItem("username"); // <-- NUEVO: nombre del usuario
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("username"); // <-- eliminamos nombre al cerrar sesión
+    navigate("/login");
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark"
@@ -13,13 +24,13 @@ const Navbar = () => {
       }}
     >
       <div className="container">
-        {/* Logo + Nombre */}
+        {/* Logo */}
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <FaFutbol style={{ marginRight: "8px", fontSize: "1.5rem" }} />
           Complejo de Futbol 5
         </Link>
 
-        {/* Toggle mobile */}
+        {/* Toggle móvil */}
         <button
           className="navbar-toggler"
           type="button"
@@ -36,59 +47,59 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link
-                className="nav-link"
-                to="/"
-                style={{ position: "relative", transition: "0.3s" }}
-              >
+              <Link className="nav-link" to="/">
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link btn-reserva"
-                to="/reservas-admin"
-              >
-                Reservas Admin
-              </Link>
-            </li>
+
+            {token ? (
+              <>
+                {/* Mostramos el nombre */}
+                <li className="nav-item">
+                  <span className="nav-link text-white">
+                    Hola, {username}
+                  </span>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link btn-reserva" to="/reservas-admin">
+                    Reservas Admin
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-danger"
+                    onClick={handleLogout}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link btn btn-success" to="/login">
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link btn btn-primary"
+                    to="/register"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Registro
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
-
-      {/* Estilos extra */}
-      <style jsx>{`
-        .nav-link {
-          font-weight: 500;
-          transition: all 0.3s;
-        }
-        .nav-link:hover {
-          color: #f1c40f !important;
-          transform: scale(1.1);
-        }
-        .btn-reserva {
-          background-color: #f39c12;
-          color: white !important;
-          padding: 5px 15px;
-          border-radius: 5px;
-          margin-left: 10px;
-          transition: all 0.3s;
-        }
-        .btn-reserva:hover {
-          background-color: #e67e22;
-          transform: scale(1.05);
-          color: white !important;
-        }
-        @media (max-width: 576px) {
-          .btn-reserva {
-            margin-left: 0;
-            margin-top: 5px;
-          }
-        }
-      `}</style>
     </nav>
   );
 };
 
 export default Navbar;
-
