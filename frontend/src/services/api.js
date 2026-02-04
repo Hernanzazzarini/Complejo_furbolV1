@@ -1,36 +1,30 @@
-// frontend/src/services/api.js
+// src/services/api.js
+const API_URL = "http://127.0.0.1:8000/api/reservas/";
 
-const API_URL = "http://127.0.0.1:8000/api/reservas/"; // usar 127.0.0.1 para evitar problemas de CORS
-
-// 🔹 Función para obtener headers con token JWT
+// -----------------------------
+// Headers con token JWT
+// -----------------------------
 function getAuthHeaders() {
   const token = localStorage.getItem("access");
-  // Para debug, podés activar este console.log:
-  console.log("TOKEN EN GETAUTHHEADERS:", token);
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-// 🔹 Listar reservas (solo usuarios logueados)
+// -----------------------------
+// Listar todas las reservas (solo admin)
+// -----------------------------
 export const listarReservas = async () => {
   const token = localStorage.getItem("access");
-  if (!token) {
-    console.error("No estás logueado");
-    return [];
-  }
+  if (!token) return [];
 
   try {
     const res = await fetch(API_URL, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // enviamos token seguro
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    if (!res.ok) {
-      console.error("Error al listar reservas:", res.status);
-      return [];
-    }
-
+    if (!res.ok) return [];
     const data = await res.json();
     return data;
   } catch (error) {
@@ -39,7 +33,9 @@ export const listarReservas = async () => {
   }
 };
 
-// 🔹 Crear reserva (usuarios logueados)
+// -----------------------------
+// Crear reserva
+// -----------------------------
 export const crearReserva = async (reserva) => {
   const token = localStorage.getItem("access");
   if (!token) return { error: "No estás logueado" };
@@ -55,7 +51,7 @@ export const crearReserva = async (reserva) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // token enviado seguro
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(bodyData),
     });
@@ -67,7 +63,9 @@ export const crearReserva = async (reserva) => {
   }
 };
 
-// 🔹 Cancelar reserva (usuarios logueados)
+// -----------------------------
+// Cancelar reserva
+// -----------------------------
 export const cancelarReserva = async ({ codigo }) => {
   const token = localStorage.getItem("access");
   if (!token) return { error: "No estás logueado" };
@@ -77,7 +75,7 @@ export const cancelarReserva = async ({ codigo }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // token necesario
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ codigo }),
     });
@@ -86,5 +84,43 @@ export const cancelarReserva = async ({ codigo }) => {
     return data;
   } catch (error) {
     return { error: error.message };
+  }
+};
+
+// -----------------------------
+// Obtener reservas del usuario logueado
+// -----------------------------
+export const misReservas = async () => {
+  const token = localStorage.getItem("access");
+  if (!token) return [];
+
+  try {
+    const res = await fetch(API_URL + "mis_reservas/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+// -----------------------------
+// Obtener horarios ocupados (público)
+// -----------------------------
+export const horariosOcupados = async () => {
+  try {
+    const res = await fetch(API_URL + "ocupadas/");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 };
