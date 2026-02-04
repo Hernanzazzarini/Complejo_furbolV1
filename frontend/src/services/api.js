@@ -1,8 +1,30 @@
-const API_URL = "http://localhost:8000/api/reservas/";
+// src/services/api.js
+const API_URL = "http://127.0.0.1:8000/api/reservas/";
 
+// -----------------------------
+// Headers con token JWT
+// -----------------------------
+function getAuthHeaders() {
+  const token = localStorage.getItem("access");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+// -----------------------------
+// Listar todas las reservas (solo admin)
+// -----------------------------
 export const listarReservas = async () => {
+  const token = localStorage.getItem("access");
+  if (!token) return [];
+
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) return [];
     const data = await res.json();
     return data;
   } catch (error) {
@@ -11,7 +33,13 @@ export const listarReservas = async () => {
   }
 };
 
+// -----------------------------
+// Crear reserva
+// -----------------------------
 export const crearReserva = async (reserva) => {
+  const token = localStorage.getItem("access");
+  if (!token) return { error: "No estás logueado" };
+
   try {
     const bodyData = {
       ...reserva,
@@ -21,7 +49,10 @@ export const crearReserva = async (reserva) => {
 
     const res = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(bodyData),
     });
 
@@ -32,16 +63,64 @@ export const crearReserva = async (reserva) => {
   }
 };
 
+// -----------------------------
+// Cancelar reserva
+// -----------------------------
 export const cancelarReserva = async ({ codigo }) => {
+  const token = localStorage.getItem("access");
+  if (!token) return { error: "No estás logueado" };
+
   try {
     const res = await fetch(API_URL + "cancelar/", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ codigo }),
     });
+
     const data = await res.json();
     return data;
   } catch (error) {
     return { error: error.message };
+  }
+};
+
+// -----------------------------
+// Obtener reservas del usuario logueado
+// -----------------------------
+export const misReservas = async () => {
+  const token = localStorage.getItem("access");
+  if (!token) return [];
+
+  try {
+    const res = await fetch(API_URL + "mis_reservas/", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+// -----------------------------
+// Obtener horarios ocupados (público)
+// -----------------------------
+export const horariosOcupados = async () => {
+  try {
+    const res = await fetch(API_URL + "ocupadas/");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 };
