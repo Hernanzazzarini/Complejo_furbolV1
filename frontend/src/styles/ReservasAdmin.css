@@ -1,73 +1,66 @@
-/* src/styles/ReservasAdmin.css */
+/* ====== FULL WIDTH REAL ====== */
 
-.reservas-admin-container {
-  width: 100%;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+.reservas-admin-full{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  background: #f8f9fa;
 }
 
-.filtros-estado {
+/* ====== filtros ====== */
+
+.filtros-estado{
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: .5rem;
   justify-content: center;
-  margin-bottom: 15px;
 }
 
-.filtro-btn {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.3s;
+.filtro-btn{
+  border-radius: 20px;
 }
 
-.filtro-btn.activo.todos {
-  background-color: #0d6efd;
-  color: white;
-}
+/* estados activos */
 
-.filtro-btn.activo.pendiente {
+.filtro-btn.activo.pendiente{
   background-color: #ffc107;
-  color: #212529;
+  color: #000;
 }
 
-.filtro-btn.activo.confirmada {
+.filtro-btn.activo.confirmada{
   background-color: #198754;
-  color: white;
+  color: #fff;
 }
 
-.filtro-btn.activo.cancelada {
+.filtro-btn.activo.cancelada{
   background-color: #dc3545;
-  color: white;
+  color: #fff;
 }
 
-.filtros-inputs input {
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.filtro-btn.activo.todos{
+  background-color: #0d6efd;
+  color: #fff;
 }
 
-.reservas-grid {
-  width: 100%;
+/* ====== tarjetas ====== */
+
+.reserva-card{
+  border-radius: 14px;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.reserva-card {
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+.reserva-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
 }
 
-.reserva-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-}
+/* ====== responsive padding ====== */
 
-/* Responsive */
-@media (max-width: 768px) {
-  .reserva-card {
-    margin-bottom: 15px;
+@media (max-width: 768px){
+
+  .reservas-admin-full{
+    padding: 1rem;
   }
+
 }

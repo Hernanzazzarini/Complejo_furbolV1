@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
+import canchaVideo from "../assets/cancha.mp4"; // tu video
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -36,17 +37,23 @@ const Login = () => {
   return (
     <div className="login-fullscreen">
 
-      {/* Panel izquierdo */}
-      <div className="login-left-panel">
-        <div className="px-4 text-center">
-          <h2>Complejo de Fútbol</h2>
-          <p>Accedé al sistema de reservas y gestión</p>
-        </div>
-      </div>
+      {/* Video de fondo */}
+      <video autoPlay loop muted className="video-bg">
+        <source src={canchaVideo} type="video/mp4" />
+        Tu navegador no soporta videos.
+      </video>
 
-      {/* Panel formulario */}
-      <div className="login-form-panel">
-        <div className="login-card w-100" style={{ maxWidth: 420 }}>
+      {/* Contenido flotante */}
+      <div className="overlay-content">
+
+        {/* Texto profesional a la izquierda */}
+        <div className="overlay-text professional-text">
+          <h1>Complejo de Fútbol</h1>
+          <p>Gestión y reservas de canchas de manera sencilla y profesional</p>
+        </div>
+
+        {/* Formulario centrado */}
+        <div className="login-card w-100">
           <h3 className="text-center mb-4">Iniciar sesión</h3>
 
           {error && <div className="alert alert-danger text-center">{error}</div>}
@@ -87,8 +94,8 @@ const Login = () => {
             </button>
           </form>
         </div>
-      </div>
 
+      </div>
     </div>
   );
 };

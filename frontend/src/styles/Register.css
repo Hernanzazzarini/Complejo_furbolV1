@@ -1,88 +1,83 @@
-/* src/styles/Register.css */
-
-/* Contenedor principal full screen */
+/* Contenedor principal ocupa toda la pantalla */
 .register-fullscreen {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Video de fondo */
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.5);
+}
+
+/* Formulario centrado */
+.register-center-panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 20px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+/* Card del registro */
+.register-card {
+  background: rgba(255,255,255,0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+/* Iconos dentro del input */
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Toggle de contraseña */
+.password-toggle {
+  position: absolute;
+  right: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Animación del formulario */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  
-  /* Panel del formulario */
-  .register-form-panel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Card de registro */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
   .register-card {
-    background: #fff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    width: 100%;
-    max-width: 420px;
+    padding: 1.5rem;
   }
-  
-  /* Títulos */
-  .register-card h3 {
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #333;
+
+  .register-center-panel {
+    max-width: 90%;
   }
-  
-  /* Inputs con íconos */
-  .register-card .form-control {
-    padding-left: 35px;
-    position: relative;
-    margin-bottom: 15px;
-  }
-  
-  /* Íconos dentro de inputs */
-  .input-icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: #888;
-    pointer-events: none;
-  }
-  
-  /* Toggle de contraseña */
-  .password-toggle {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  /* Botón Registrar */
-  .register-card .btn-primary {
-    border-radius: 8px;
-    font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-  }
-  
-  .register-card .btn-primary:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-  }
-  
-  /* Alertas de error o éxito */
-  .register-card .alert {
-    font-size: 0.9rem;
-    padding: 10px 12px;
-    margin-bottom: 15px;
-  }
+}
