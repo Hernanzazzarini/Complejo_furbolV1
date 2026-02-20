@@ -39,7 +39,8 @@ const Home = () => {
     cargarReservas();
   }, []);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const horaAMinutos = (hora) => {
     const [h, m] = hora.split(":").map(Number);
@@ -52,7 +53,23 @@ const Home = () => {
   // Crear reserva
   // -----------------------------
   const handleCrear = async () => {
-    if (!form.hora_inicio || !form.fecha) {
+    // Validaciones front-end
+    if (!form.nombre) {
+      setMensaje("Ingresa tu nombre.");
+      return;
+    }
+
+    if (!form.telefono) {
+      setMensaje("Ingresa tu teléfono.");
+      return;
+    }
+
+    if (!/^\d{8,15}$/.test(form.telefono.replace(/\D/g, ""))) {
+      setMensaje("Ingresa un teléfono válido (solo números, 8 a 15 dígitos).");
+      return;
+    }
+
+    if (!form.fecha || !form.hora_inicio) {
       setMensaje("Selecciona fecha y horario.");
       return;
     }
@@ -81,8 +98,10 @@ const Home = () => {
       return;
     }
 
+    // Enviar datos a la API, normalizando el teléfono
     const data = await crearReserva({
       ...form,
+      telefono: form.telefono.replace(/\D/g, ""), // solo números
       hora_inicio: seleccion.inicio,
       hora_fin: seleccion.fin,
     });
@@ -90,7 +109,14 @@ const Home = () => {
     if (data.codigo_cancelacion) {
       setCodigoReserva(data.codigo_cancelacion);
       setMensaje("Reserva confirmada. Tu código: " + data.codigo_cancelacion);
-      setForm({ nombre: "", telefono: "", email: "", fecha: "", hora_inicio: "", comentario: "" });
+      setForm({
+        nombre: "",
+        telefono: "",
+        email: "",
+        fecha: "",
+        hora_inicio: "",
+        comentario: "",
+      });
       cargarReservas();
     } else {
       setMensaje(data.error || "Error al crear reserva");
@@ -119,7 +145,8 @@ const Home = () => {
   // Renderizar cronograma
   // -----------------------------
   const renderDiagrama = () => {
-    if (!form.fecha) return <p className="text-center">Selecciona una fecha para ver el cronograma</p>;
+    if (!form.fecha)
+      return <p className="text-center">Selecciona una fecha para ver el cronograma</p>;
 
     const reservasDelDia = reservas.filter((r) => r.fecha === form.fecha);
 
@@ -134,7 +161,10 @@ const Home = () => {
                 normalizarHora(r.hora_fin) === h.fin
             );
             return (
-              <div key={h.inicio} className={`bloque ${ocupada ? "ocupado" : "libre"}`}>
+              <div
+                key={h.inicio}
+                className={`bloque ${ocupada ? "ocupado" : "libre"}`}
+              >
                 <span className="hora">{h.inicio} - {h.fin}</span>
                 <span className="nombre">{ocupada ? ocupada.nombre : "Libre"}</span>
               </div>
@@ -163,11 +193,30 @@ const Home = () => {
         <div className="formulario">
           <div className="card-form">
             <h4>Crear reserva</h4>
-            <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} />
-            <input name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} />
-            <input name="email" placeholder="Email (opcional)" value={form.email} onChange={handleChange} />
-            <input type="date" name="fecha" value={form.fecha} onChange={handleChange} />
-
+            <input
+              name="nombre"
+              placeholder="Nombre"
+              value={form.nombre}
+              onChange={handleChange}
+            />
+            <input
+              name="telefono"
+              placeholder="Teléfono (solo números)"
+              value={form.telefono}
+              onChange={handleChange}
+            />
+            <input
+              name="email"
+              placeholder="Email (opcional)"
+              value={form.email}
+              onChange={handleChange}
+            />
+            <input
+              type="date"
+              name="fecha"
+              value={form.fecha}
+              onChange={handleChange}
+            />
             <select name="hora_inicio" value={form.hora_inicio} onChange={handleChange}>
               <option value="">Selecciona horario</option>
               {horariosFijos.map((h) => {
@@ -183,21 +232,50 @@ const Home = () => {
                 );
               })}
             </select>
-
-            <textarea name="comentario" placeholder="Comentario (opcional)" value={form.comentario} onChange={handleChange} />
-            <button className="btn-reservar" onClick={handleCrear}>Reservar</button>
+            <textarea
+              name="comentario"
+              placeholder="Comentario (opcional)"
+              value={form.comentario}
+              onChange={handleChange}
+            />
+            <button className="btn-reservar" onClick={handleCrear}>
+              Reservar
+            </button>
           </div>
 
           <div className="card-form">
             <h4>Cancelar reserva</h4>
-            <input placeholder="Código de cancelación" value={cancelar.codigo} onChange={(e) => setCancelar({ codigo: e.target.value })} />
-            <button className="btn-cancelar" onClick={handleCancelar}>Cancelar reserva</button>
+            <input
+              placeholder="Código de cancelación"
+              value={cancelar.codigo}
+              onChange={(e) => setCancelar({ codigo: e.target.value })}
+            />
+            <button className="btn-cancelar" onClick={handleCancelar}>
+              Cancelar reserva
+            </button>
           </div>
 
           {mensaje && <div className="mensaje">{mensaje}</div>}
         </div>
 
         <div className="cronograma-container">{renderDiagrama()}</div>
+      </div>
+
+      {/* -----------------------------
+          Sección mapa
+      ----------------------------- */}
+      <div className="mapa-container">
+        <h3 className="mapa-titulo">📍 Cómo llegar al complejo</h3>
+        <div className="mapa-wrapper">
+          <iframe
+            title="Ubicación del complejo"
+            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3603.7485959154487!2d-63.872471!3d-33.199011!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzPCsDExJzU2LjQiUyA2M8KwNTInMjAuOSJX!5e1!3m2!1ses!2sar!4v1771593941244!5m2!1ses!2sar"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,22 +1,73 @@
+/* src/styles/ReservasAdmin.css */
+
+.reservas-admin-container {
+  width: 100%;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.filtros-estado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.filtro-btn {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filtro-btn.activo.todos {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.filtro-btn.activo.pendiente {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.filtro-btn.activo.confirmada {
+  background-color: #198754;
+  color: white;
+}
+
+.filtro-btn.activo.cancelada {
+  background-color: #dc3545;
+  color: white;
+}
+
+.filtros-inputs input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.reservas-grid {
+  width: 100%;
+}
+
 .reserva-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.reserva-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .reserva-card {
+    margin-bottom: 15px;
   }
-  
-  .reserva-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
-  
-  /* Scroll horizontal suave en móvil si hay muchas cards */
-  @media (max-width: 576px) {
-    .row {
-      overflow-x: auto;
-      flex-wrap: nowrap;
-    }
-    .col-12 {
-      flex: 0 0 80%;
-      max-width: 80%;
-    }
-  }
-  
+}
