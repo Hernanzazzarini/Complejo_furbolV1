@@ -1,124 +1,126 @@
-/* src/styles/Login.css */
-
-/* Contenedor principal: ancho y alto 100% de pantalla */
+/* Contenedor principal fullscreen */
 .login-fullscreen {
-    display: flex;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Video de fondo */
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.5);
+}
+
+/* Overlay del contenido */
+.overlay-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  flex-wrap: wrap;
+}
+
+/* Texto profesional */
+.professional-text {
+  max-width: 500px;
+  color: white;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.professional-text h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.professional-text p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Card del login */
+.login-card {
+  background: rgba(255,255,255,0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* Iconos dentro del input */
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Toggle de contraseña */
+.password-toggle {
+  position: absolute;
+  right: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Animación fade-in hacia arriba */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .overlay-content {
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
-  
-  @media (min-width: 768px) {
-    .login-fullscreen {
-      flex-direction: row;
-    }
-  }
-  
-  /* Panel izquierdo */
-  .login-left-panel {
-    background-color: #28a745;
-    color: #fff;
-    flex: 1;
-    display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    min-height: 50vh; /* en móvil ocupa la mitad */
   }
-  
-  @media (min-width: 768px) {
-    .login-left-panel {
-      min-height: 100vh; /* en desktop ocupa toda la altura */
-    }
+
+  .professional-text {
+    max-width: 90%;
+    margin-bottom: 20px;
   }
-  
-  /* Panel formulario */
-  .login-form-panel {
-    background-color: #f8f9fa;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 50vh;
+
+  .professional-text h1 {
+    font-size: 2rem;
   }
-  
-  @media (min-width: 768px) {
-    .login-form-panel {
-      min-height: 100vh;
-    }
+
+  .professional-text p {
+    font-size: 1rem;
   }
-  
-  /* Card del formulario */
+
   .login-card {
-    background: #fff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    width: 100%;
-    max-width: 420px;
+    max-width: 90%;
   }
-  
-  /* Títulos */
-  .login-card h3 {
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #333;
-  }
-  
-  /* Inputs con íconos */
-  .login-card .form-control {
-    padding-left: 35px;
-    position: relative;
-  }
-  
-  .input-icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: #888;
-    pointer-events: none;
-  }
-  
-  /* Toggle de contraseña */
-  .password-toggle {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  /* Botón Entrar */
-  .login-card .btn-success {
-    border-radius: 8px;
-    font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-  }
-  
-  .login-card .btn-success:hover {
-    background-color: #218838;
-    transform: translateY(-2px);
-  }
-  
-  /* Mensajes de error */
-  .login-card .alert {
-    font-size: 0.9rem;
-    padding: 10px 12px;
-  }
-  
-  /* Responsive móviles */
-  @media (max-width: 768px) {
-    .login-left-panel {
-      display: none;
-    }
-    .login-card {
-      padding: 25px 20px;
-    }
-  }
+}

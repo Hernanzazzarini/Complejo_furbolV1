@@ -1,4 +1,3 @@
-// src/pages/ReservasAdmin.jsx
 import React, { useEffect, useState } from "react";
 import { listarReservas } from "../services/api";
 import "../styles/ReservasAdmin.css";
@@ -7,7 +6,7 @@ const ReservasAdmin = () => {
   const [reservas, setReservas] = useState([]);
   const [search, setSearch] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("todos");
-  const [filtroFecha, setFiltroFecha] = useState(""); // YYYY-MM-DD
+  const [filtroFecha, setFiltroFecha] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,17 +46,23 @@ const ReservasAdmin = () => {
     const matchesSearch =
       r.nombre.toLowerCase().includes(search.toLowerCase()) ||
       r.email.toLowerCase().includes(search.toLowerCase());
+
     const matchesEstado =
       filtroEstado === "todos" || r.estado.toLowerCase() === filtroEstado;
+
     const matchesFecha = !filtroFecha || r.fecha === filtroFecha;
+
     return matchesSearch && matchesEstado && matchesFecha;
   });
 
   return (
-    <div className="reservas-admin-container">
-      <h1 className="text-center mb-4">Reservas del Complejo (Admin)</h1>
+    <div className="reservas-admin-full">
 
-      {/* Filtros rápidos por estado */}
+      <h1 className="text-center mb-4">
+        Reservas del Complejo (Admin)
+      </h1>
+
+      {/* Filtros de estado */}
       <div className="filtros-estado mb-3">
         {["todos", "pendiente", "confirmada", "cancelada"].map((estado) => (
           <button
@@ -72,8 +77,8 @@ const ReservasAdmin = () => {
         ))}
       </div>
 
-      {/* Búsqueda y filtro por fecha */}
-      <div className="filtros-inputs row g-2 mb-4">
+      {/* Buscadores */}
+      <div className="row g-2 mb-4 filtros-inputs">
         <div className="col-12 col-md-6">
           <input
             type="text"
@@ -83,6 +88,7 @@ const ReservasAdmin = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+
         <div className="col-12 col-md-6">
           <input
             type="date"
@@ -98,23 +104,47 @@ const ReservasAdmin = () => {
       ) : (
         <div className="row g-3 reservas-grid">
           {reservasFiltradas.map((r) => (
-            <div key={r.id} className="col-12 col-sm-6 col-lg-4">
+            <div key={r.id} className="col-12 col-sm-6 col-lg-4 col-xl-3">
+
               <div className={`card h-100 reserva-card ${cardBg(r.estado)}`}>
                 <div className="card-body d-flex flex-column">
+
                   <h5 className="card-title">{r.nombre}</h5>
-                  <p className="card-text mb-1"><strong>Tel:</strong> {r.telefono}</p>
-                  <p className="card-text mb-1"><strong>Email:</strong> {r.email}</p>
-                  <p className="card-text mb-1"><strong>Fecha:</strong> {r.fecha}</p>
-                  <p className="card-text mb-1"><strong>Horario:</strong> {r.hora_inicio} - {r.hora_fin}</p>
+
+                  <p className="card-text mb-1">
+                    <strong>Tel:</strong> {r.telefono}
+                  </p>
+
+                  <p className="card-text mb-1">
+                    <strong>Email:</strong> {r.email}
+                  </p>
+
+                  <p className="card-text mb-1">
+                    <strong>Fecha:</strong> {r.fecha}
+                  </p>
+
+                  <p className="card-text mb-1">
+                    <strong>Horario:</strong> {r.hora_inicio} - {r.hora_fin}
+                  </p>
+
                   {r.comentario && (
-                    <p className="card-text mb-1"><strong>Comentario:</strong> {r.comentario}</p>
+                    <p className="card-text mb-1">
+                      <strong>Comentario:</strong> {r.comentario}
+                    </p>
                   )}
+
                   <div className="mt-auto d-flex justify-content-between align-items-center">
-                    <span className={estadoBadge(r.estado)}>{r.estado}</span>
-                    <small className="text-muted">{new Date(r.created_at).toLocaleString()}</small>
+                    <span className={estadoBadge(r.estado)}>
+                      {r.estado}
+                    </span>
+                    <small className="text-muted">
+                      {new Date(r.created_at).toLocaleString()}
+                    </small>
                   </div>
+
                 </div>
               </div>
+
             </div>
           ))}
         </div>
@@ -124,5 +154,3 @@ const ReservasAdmin = () => {
 };
 
 export default ReservasAdmin;
-
-

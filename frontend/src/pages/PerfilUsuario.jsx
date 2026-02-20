@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { misReservas, cancelarReserva } from "../services/api";
+import "../styles/PerfilUsuario.css";
 
 const PerfilUsuario = () => {
   const [reservas, setReservas] = useState([]);
   const [mensaje, setMensaje] = useState("");
-  const [cargando, setCargando] = useState(true); // Nuevo estado para carga
+  const [cargando, setCargando] = useState(true);
 
-  // -----------------------------
-  // Cargar reservas del usuario
-  // -----------------------------
   const cargarReservas = async () => {
     setCargando(true);
     try {
-      const data = await misReservas(); // Llama al endpoint mis_reservas
+      const data = await misReservas(); 
       setReservas(data);
       setMensaje("");
     } catch (err) {
@@ -27,9 +25,6 @@ const PerfilUsuario = () => {
     cargarReservas();
   }, []);
 
-  // -----------------------------
-  // Cancelar reserva
-  // -----------------------------
   const handleCancelar = async (codigo) => {
     if (!window.confirm("¿Estás seguro que quieres cancelar esta reserva?")) return;
 
@@ -37,7 +32,7 @@ const PerfilUsuario = () => {
       const data = await cancelarReserva({ codigo });
       if (data.mensaje) {
         setMensaje(data.mensaje);
-        cargarReservas(); // Actualiza lista
+        cargarReservas();
       } else {
         setMensaje(data.error || "No se pudo cancelar la reserva");
       }
@@ -48,27 +43,31 @@ const PerfilUsuario = () => {
   };
 
   return (
-    <div className="perfil-container container my-4">
-      <h2 className="mb-4">Mis Reservas</h2>
+    <div className="perfil-container-full">
+      <h2 className="mb-4 text-center">Mis Reservas</h2>
 
-      {mensaje && <div className="alert alert-info">{mensaje}</div>}
+      {mensaje && <div className="alert alert-info text-center">{mensaje}</div>}
 
       {cargando ? (
-        <p>Cargando tus reservas...</p>
+        <div className="text-center my-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+        </div>
       ) : reservas.length === 0 ? (
-        <p>No tienes reservas activas.</p>
+        <p className="text-center">No tienes reservas activas.</p>
       ) : (
-        <div className="row">
+        <div className="reservas-grid-full">
           {reservas.map((r) => (
-            <div key={r.codigo_cancelacion} className="col-md-6 mb-3">
-              <div className="card shadow-sm reserva-card">
-                <div className="card-body">
+            <div key={r.codigo_cancelacion} className="reserva-col-full">
+              <div className="card shadow-sm reserva-card-full h-100">
+                <div className="card-body d-flex flex-column">
                   <p><strong>Fecha:</strong> {r.fecha}</p>
                   <p><strong>Horario:</strong> {r.hora_inicio} - {r.hora_fin}</p>
                   <p><strong>Comentario:</strong> {r.comentario || "Ninguno"}</p>
                   <p><strong>Código de cancelación:</strong> {r.codigo_cancelacion}</p>
                   <button
-                    className="btn btn-danger mt-2"
+                    className="btn btn-danger mt-auto"
                     onClick={() => handleCancelar(r.codigo_cancelacion)}
                   >
                     Cancelar Reserva

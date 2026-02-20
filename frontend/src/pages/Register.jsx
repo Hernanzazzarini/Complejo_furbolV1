@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
+import canchaVideo from "../assets/cancha.mp4"; // tu video
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -49,9 +50,17 @@ const Register = () => {
   return (
     <div className="register-fullscreen">
 
-      <div className="register-form-panel">
+      {/* Video de fondo */}
+      <video autoPlay loop muted className="video-bg">
+        <source src={canchaVideo} type="video/mp4" />
+        Tu navegador no soporta videos.
+      </video>
+
+      {/* Formulario centrado */}
+      <div className="register-center-panel">
         <div className="register-card">
-          <h3 className="text-center mb-4">Registro de usuario</h3>
+          <h2 className="text-center mb-3">Complejo de Fútbol</h2>
+          <p className="text-center mb-4">Registro de usuario</p>
 
           {error && <div className="alert alert-danger text-center">{error}</div>}
           {success && <div className="alert alert-success text-center">{success}</div>}
