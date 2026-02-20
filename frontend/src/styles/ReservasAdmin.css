@@ -1,22 +1,66 @@
-.reserva-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
+/* ====== FULL WIDTH REAL ====== */
+
+.reservas-admin-full{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  background: #f8f9fa;
+}
+
+/* ====== filtros ====== */
+
+.filtros-estado{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  justify-content: center;
+}
+
+.filtro-btn{
+  border-radius: 20px;
+}
+
+/* estados activos */
+
+.filtro-btn.activo.pendiente{
+  background-color: #ffc107;
+  color: #000;
+}
+
+.filtro-btn.activo.confirmada{
+  background-color: #198754;
+  color: #fff;
+}
+
+.filtro-btn.activo.cancelada{
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.filtro-btn.activo.todos{
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+/* ====== tarjetas ====== */
+
+.reserva-card{
+  border-radius: 14px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.reserva-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+
+/* ====== responsive padding ====== */
+
+@media (max-width: 768px){
+
+  .reservas-admin-full{
+    padding: 1rem;
   }
-  
-  .reserva-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
-  
-  /* Scroll horizontal suave en móvil si hay muchas cards */
-  @media (max-width: 576px) {
-    .row {
-      overflow-x: auto;
-      flex-wrap: nowrap;
-    }
-    .col-12 {
-      flex: 0 0 80%;
-      max-width: 80%;
-    }
-  }
-  
+
+}

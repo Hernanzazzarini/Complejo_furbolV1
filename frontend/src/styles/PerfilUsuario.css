@@ -1,0 +1,78 @@
+/* Contenedor full-width */
+.perfil-container-full {
+    width: 100vw; /* Usa todo el ancho de la pantalla */
+    min-height: 100vh; /* Opcional: altura mínima completa */
+    padding: 2rem;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+  }
+  
+  /* Grilla full-width */
+  .reservas-grid-full {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start; /* Puedes cambiar a center */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Columnas de tarjetas */
+  .reserva-col-full {
+    flex: 1 1 calc(33.333% - 1rem);
+    min-width: 250px;
+  }
+  
+  /* Tarjetas */
+  .reserva-card-full {
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+  }
+  
+  .reserva-card-full:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  
+  /* Animación */
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Botón cancelar */
+  .reserva-card-full .btn-danger {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .reserva-card-full .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  /* Spinner centrado */
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .reserva-col-full {
+      flex: 1 1 calc(50% - 1rem);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .reserva-col-full {
+      flex: 1 1 100%;
+    }
+    .perfil-container-full {
+      padding: 1rem;
+    }
+  }

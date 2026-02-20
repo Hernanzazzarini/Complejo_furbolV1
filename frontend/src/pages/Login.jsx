@@ -1,10 +1,14 @@
+// src/pages/Login.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/Login.css";
+import canchaVideo from "../assets/cancha.mp4"; // tu video
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,13 +23,11 @@ const Login = () => {
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.detail || "Credenciales incorrectas");
 
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       localStorage.setItem("username", username);
-
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -33,79 +35,64 @@ const Login = () => {
   };
 
   return (
-    /* fuerza ancho real del viewport */
-    <div className="vw-100 min-vh-100 p-0 m-0">
-      <div className="row g-0 min-vh-100">
+    <div className="login-fullscreen">
 
-        <div className="col-12">
-          <div className="card w-100 min-vh-100 border-0 rounded-0">
+      {/* Video de fondo */}
+      <video autoPlay loop muted className="video-bg">
+        <source src={canchaVideo} type="video/mp4" />
+        Tu navegador no soporta videos.
+      </video>
 
-            <div className="row g-0 h-100">
+      {/* Contenido flotante */}
+      <div className="overlay-content">
 
-              {/* Panel izquierdo */}
-              <div className="col-12 col-md-6 d-none d-md-flex bg-success text-white align-items-center justify-content-center">
-                <div className="text-center px-4">
-                  <h2 className="fw-bold mb-3">Complejo de fútbol</h2>
-                  <p className="mb-0">
-                    Accedé al sistema de reservas y gestión
-                  </p>
-                </div>
-              </div>
+        {/* Texto profesional a la izquierda */}
+        <div className="overlay-text professional-text">
+          <h1>Complejo de Fútbol</h1>
+          <p>Gestión y reservas de canchas de manera sencilla y profesional</p>
+        </div>
 
-              {/* Formulario */}
-              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <div className="w-100" style={{ maxWidth: 420 }}>
+        {/* Formulario centrado */}
+        <div className="login-card w-100">
+          <h3 className="text-center mb-4">Iniciar sesión</h3>
 
-                  <h3 className="mb-4 text-center fw-bold">
-                    Iniciar sesión
-                  </h3>
+          {error && <div className="alert alert-danger text-center">{error}</div>}
 
-                  {error && (
-                    <div className="alert alert-danger text-center">
-                      {error}
-                    </div>
-                  )}
-
-                  <form onSubmit={handleSubmit}>
-
-                    <div className="mb-3">
-                      <label className="form-label">Usuario</label>
-                      <input
-                        className="form-control"
-                        placeholder="Ingresá tu usuario"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label className="form-label">Contraseña</label>
-                      <input
-                        className="form-control"
-                        type="password"
-                        placeholder="Ingresá tu contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="btn btn-success w-100 py-2 fw-semibold"
-                    >
-                      Entrar
-                    </button>
-
-                  </form>
-
-                </div>
-              </div>
-
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3 position-relative">
+              <input
+                className="form-control"
+                placeholder="Ingresá tu usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <span className="input-icon">👤</span>
             </div>
 
-          </div>
+            <div className="mb-4 position-relative">
+              <input
+                className="form-control"
+                type={showPassword ? "text" : "password"}
+                placeholder="Ingresá tu contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span className="input-icon">🔑</span>
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </span>
+            </div>
+
+            <button type="submit" className="btn btn-success w-100 py-2">
+              Entrar
+            </button>
+          </form>
         </div>
 
       </div>
@@ -114,4 +101,3 @@ const Login = () => {
 };
 
 export default Login;
-

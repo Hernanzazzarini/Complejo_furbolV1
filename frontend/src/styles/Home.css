@@ -1,182 +1,309 @@
 /* src/pages/Home.css */
+
+/* ---------------- HOME CONTENEDOR ---------------- */
 .home-container {
-    width: 100%;
-    min-height: 100vh;
-    font-family: "Arial", sans-serif;
-    background: #f4f4f9;
-    position: relative;
-  }
-  
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+  background: #f4f4f9;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ---------------- HERO ---------------- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+  margin-bottom: 30px;
+}
+
+.video-hero {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  padding: 0 15px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+}
+
+/* ---------------- CONTENIDO ---------------- */
+.contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* ---------------- FORMULARIOS ---------------- */
+.formulario {
+  flex: 1;
+  min-width: 320px;
+}
+
+.card-form {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.card-form h4 {
+  margin-bottom: 15px;
+}
+
+.card-form input,
+.card-form textarea,
+.card-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.card-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-reservar,
+.btn-cancelar {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-reservar {
+  background-color: #28a745;
+}
+
+.btn-reservar:hover {
+  background-color: #218838;
+}
+
+.btn-cancelar {
+  background-color: #dc3545;
+}
+
+.btn-cancelar:hover {
+  background-color: #c82333;
+}
+
+.mensaje {
+  margin-top: 10px;
+  padding: 10px;
+  background: #e2e3e5;
+  border-left: 5px solid #007bff;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* ---------------- CRONOGRAMA ---------------- */
+.cronograma-container {
+  flex: 1;
+  min-width: 320px;
+}
+
+.cronograma {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.grid-cronograma {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.bloque {
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-height: 60px;
+}
+
+.bloque .hora {
+  font-size: 13px;
+}
+
+.bloque .nombre {
+  font-size: 14px;
+}
+
+.libre {
+  background-color: #28a745;
+}
+
+.ocupado {
+  background-color: #dc3545;
+}
+
+.leyenda {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.libre-leyenda,
+.ocupado-leyenda {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+
+.libre-leyenda {
+  background: #28a745;
+}
+
+.ocupado-leyenda {
+  background: #dc3545;
+}
+
+/* ---------------- MAPA ---------------- */
+.mapa-container {
+  width: 100%;
+  margin-top: 60px;
+  padding: 0 20px 40px 20px;
+  box-sizing: border-box;
+}
+
+.mapa-titulo {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.mapa-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  background: #fff;
+}
+
+.mapa-wrapper iframe {
+  width: 100%;
+  height: 380px;
+  border: 0;
+  display: block;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 992px) {
   .hero {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    border-radius: 0 0 20px 20px;
-    margin-bottom: 30px;
+    height: 260px;
   }
-  
-  .video-hero {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.6);
-  }
-  
-  .hero-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    text-align: center;
-  }
-  
   .hero-text h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-size: 2rem;
   }
-  
   .hero-text p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
-  
+  .mapa-wrapper iframe {
+    height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
   .contenido {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .formulario {
-    flex: 1;
-    min-width: 320px;
-  }
-  
-  .card-form {
-    background: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  
-  .card-form h4 {
-    margin-bottom: 15px;
-  }
-  
-  .card-form input,
-  .card-form textarea,
-  .card-form select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
-  .btn-reservar,
-  .btn-cancelar {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .btn-reservar {
-    background-color: #28a745;
-  }
-  
-  .btn-reservar:hover {
-    background-color: #218838;
-  }
-  
-  .btn-cancelar {
-    background-color: #dc3545;
-  }
-  
-  .btn-cancelar:hover {
-    background-color: #c82333;
-  }
-  
-  .mensaje {
-    margin-top: 10px;
-    padding: 10px;
-    background: #e2e3e5;
-    border-left: 5px solid #007bff;
-    border-radius: 5px;
-  }
-  
-  .cronograma-container {
-    flex: 1;
-    min-width: 320px;
-  }
-  
-  .cronograma {
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  .grid-cronograma {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  
-  .bloque {
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
+    padding: 15px;
   }
-  
-  .libre {
-    background-color: #28a745;
+
+  .formulario,
+  .cronograma-container {
+    min-width: 100%;
   }
-  
-  .ocupado {
-    background-color: #dc3545;
+
+  .grid-cronograma {
+    grid-template-columns: 1fr;
   }
-  
-  .leyenda {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    font-weight: bold;
+
+  .hero {
+    height: 220px;
   }
-  
-  .libre-leyenda {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    background: #28a745;
-    border-radius: 3px;
+
+  .hero-text h1 {
+    font-size: 1.7rem;
   }
-  
-  .ocupado-leyenda {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    background: #dc3545;
-    border-radius: 3px;
+
+  .hero-text p {
+    font-size: 1rem;
   }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .grid-cronograma {
-      grid-template-columns: 1fr;
-    }
+
+  .mapa-container {
+    margin-top: 40px;
+    padding: 0 15px 30px 15px;
   }
-  
+
+  .mapa-wrapper iframe {
+    height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 200px;
+  }
+  .hero-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .bloque .hora {
+    font-size: 12px;
+  }
+
+  .bloque .nombre {
+    font-size: 13px;
+  }
+
+  .mapa-wrapper iframe {
+    height: 240px;
+  }
+}
