@@ -1,0 +1,124 @@
+/* src/styles/Login.css */
+
+/* Contenedor principal: ancho y alto 100% de pantalla */
+.login-fullscreen {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  
+  @media (min-width: 768px) {
+    .login-fullscreen {
+      flex-direction: row;
+    }
+  }
+  
+  /* Panel izquierdo */
+  .login-left-panel {
+    background-color: #28a745;
+    color: #fff;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 50vh; /* en móvil ocupa la mitad */
+  }
+  
+  @media (min-width: 768px) {
+    .login-left-panel {
+      min-height: 100vh; /* en desktop ocupa toda la altura */
+    }
+  }
+  
+  /* Panel formulario */
+  .login-form-panel {
+    background-color: #f8f9fa;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+  }
+  
+  @media (min-width: 768px) {
+    .login-form-panel {
+      min-height: 100vh;
+    }
+  }
+  
+  /* Card del formulario */
+  .login-card {
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 420px;
+  }
+  
+  /* Títulos */
+  .login-card h3 {
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  /* Inputs con íconos */
+  .login-card .form-control {
+    padding-left: 35px;
+    position: relative;
+  }
+  
+  .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #888;
+    pointer-events: none;
+  }
+  
+  /* Toggle de contraseña */
+  .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Botón Entrar */
+  .login-card .btn-success {
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .login-card .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+  }
+  
+  /* Mensajes de error */
+  .login-card .alert {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+  
+  /* Responsive móviles */
+  @media (max-width: 768px) {
+    .login-left-panel {
+      display: none;
+    }
+    .login-card {
+      padding: 25px 20px;
+    }
+  }
