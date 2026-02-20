@@ -1,105 +1,62 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaFutbol } from "react-icons/fa";
+import { FaFutbol, FaUserCircle } from "react-icons/fa";
+import { Dropdown, Nav, Navbar as BSNavbar, Container } from "react-bootstrap";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("access");
-  const username = localStorage.getItem("username"); // <-- NUEVO: nombre del usuario
+  const username = localStorage.getItem("username");
 
   const handleLogout = () => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
-    localStorage.removeItem("username"); // <-- eliminamos nombre al cerrar sesión
+    localStorage.removeItem("username");
     navigate("/login");
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark"
-      style={{
-        background: "linear-gradient(90deg, #2ecc71, #27ae60)",
-        boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-        padding: "10px 0",
-      }}
-    >
-      <div className="container">
-        {/* Logo */}
-        <Link className="navbar-brand d-flex align-items-center" to="/">
+    <BSNavbar expand="lg" variant="dark" style={{ background: "linear-gradient(90deg, #2ecc71, #27ae60)" }}>
+      <Container>
+        <BSNavbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <FaFutbol style={{ marginRight: "8px", fontSize: "1.5rem" }} />
           Complejo de Futbol 5
-        </Link>
-
-        {/* Toggle móvil */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        {/* Links */}
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Home
-              </Link>
-            </li>
+        </BSNavbar.Brand>
+        <BSNavbar.Toggle aria-controls="basic-navbar-nav" />
+        <BSNavbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto align-items-center">
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
 
             {token ? (
               <>
-                {/* Mostramos el nombre */}
-                <li className="nav-item">
-                  <span className="nav-link text-white">
-                    Hola, {username}
-                  </span>
-                </li>
+                <Dropdown align="end" className="ms-2">
+                  <Dropdown.Toggle variant="success" id="dropdown-basic" className="d-flex align-items-center">
+                    <FaUserCircle style={{ marginRight: "5px" }} />
+                    {username}
+                  </Dropdown.Toggle>
 
-                <li className="nav-item">
-                  <Link className="nav-link btn-reserva" to="/reservas-admin">
-                    Reservas Admin
-                  </Link>
-                </li>
+                  <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to="/perfil">Mi Perfil</Dropdown.Item>
+                    <Dropdown.Item className="text-danger" onClick={handleLogout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
 
-                <li className="nav-item">
-                  <button
-                    className="nav-link btn btn-danger"
-                    onClick={handleLogout}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Logout
-                  </button>
-                </li>
+                <Nav.Link as={Link} to="/reservas-admin" className="btn btn-outline-light ms-2">
+                  Reservas Admin
+                </Nav.Link>
               </>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link btn btn-success" to="/login">
-                    Login
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link btn btn-primary"
-                    to="/register"
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Registro
-                  </Link>
-                </li>
+                <Nav.Link as={Link} to="/login" className="btn btn-success">Login</Nav.Link>
+                <Nav.Link as={Link} to="/register" className="btn btn-primary ms-2">Registro</Nav.Link>
               </>
             )}
-          </ul>
-        </div>
-      </div>
-    </nav>
+          </Nav>
+        </BSNavbar.Collapse>
+      </Container>
+    </BSNavbar>
   );
 };
 
 export default Navbar;
+

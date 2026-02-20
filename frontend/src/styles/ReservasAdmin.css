@@ -1,0 +1,22 @@
+.reserva-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  
+  .reserva-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  
+  /* Scroll horizontal suave en móvil si hay muchas cards */
+  @media (max-width: 576px) {
+    .row {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+    .col-12 {
+      flex: 0 0 80%;
+      max-width: 80%;
+    }
+  }
+  
