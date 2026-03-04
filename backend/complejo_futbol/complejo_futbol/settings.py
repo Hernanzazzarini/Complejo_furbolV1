@@ -65,7 +65,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'complejo_futbol.urls'
-CORS_ALLOW_ALL_ORIGINS = True  # Temporal para desarrollo
+CORS_ALLOWED_ORIGINS = [
+    "https://complejo-furbol-v1.vercel.app",
+]
+CORS_ALLOW_CREDENTIALS = True
 TIME_ZONE = 'America/Argentina/Buenos_Aires'
 USE_TZ = True
 
