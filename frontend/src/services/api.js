@@ -3,8 +3,9 @@
 // 👉 Base URL desde variable de entorno de Vercel (Vite)
 const API_BASE = import.meta.env.VITE_API_URL;
 
-// 👉 Endpoint real de reservas
-const API_URL = `${API_BASE}/reservas/`;
+// 👉 Endpoints
+const AUTH_URL = `${API_BASE}/auth/`;
+const RESERVAS_URL = `${API_BASE}/reservas/`;
 
 // -----------------------------
 // Headers con token JWT
@@ -15,6 +16,64 @@ function getAuthHeaders() {
 }
 
 // -----------------------------
+// Registro de usuario
+// -----------------------------
+export const registerUser = async (userData) => {
+  try {
+    const res = await fetch(`${AUTH_URL}register/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      const errMsg =
+        data.username?.[0] || data.password?.[0] || data.detail || JSON.stringify(data);
+      return { error: errMsg };
+    }
+    return data;
+  } catch (err) {
+    return { error: err.message };
+  }
+};
+
+// -----------------------------
+// Login de usuario
+// -----------------------------
+export const loginUser = async (credentials) => {
+  try {
+    const res = await fetch(`${AUTH_URL}login/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { error: data.detail || JSON.stringify(data) };
+    }
+
+    // Guardar token y usuario
+    localStorage.setItem("access", data.access);
+    localStorage.setItem("refresh", data.refresh);
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        username: data.username,
+        email: data.email,
+        first_name: data.first_name,
+        last_name: data.last_name,
+      })
+    );
+
+    return data;
+  } catch (err) {
+    return { error: err.message };
+  }
+};
+
+// -----------------------------
 // Listar todas las reservas (solo admin)
 // -----------------------------
 export const listarReservas = async () => {
@@ -22,13 +81,9 @@ export const listarReservas = async () => {
   if (!token) return [];
 
   try {
-    const res = await fetch(API_URL, {
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeaders(),
-      },
+    const res = await fetch(RESERVAS_URL, {
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
     });
-
     if (!res.ok) return [];
     return await res.json();
   } catch (error) {
@@ -50,16 +105,11 @@ export const crearReserva = async (reserva) => {
       hora_inicio: reserva.hora_inicio + ":00",
       hora_fin: reserva.hora_fin + ":00",
     };
-
-    const res = await fetch(API_URL, {
+    const res = await fetch(RESERVAS_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeaders(),
-      },
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify(bodyData),
     });
-
     return await res.json();
   } catch (error) {
     return { error: error.message };
@@ -74,15 +124,11 @@ export const cancelarReserva = async ({ codigo }) => {
   if (!token) return { error: "No estás logueado" };
 
   try {
-    const res = await fetch(`${API_URL}cancelar/`, {
+    const res = await fetch(`${RESERVAS_URL}cancelar/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeaders(),
-      },
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify({ codigo }),
     });
-
     return await res.json();
   } catch (error) {
     return { error: error.message };
@@ -97,13 +143,9 @@ export const misReservas = async () => {
   if (!token) return [];
 
   try {
-    const res = await fetch(`${API_URL}mis_reservas/`, {
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeaders(),
-      },
+    const res = await fetch(`${RESERVAS_URL}mis_reservas/`, {
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
     });
-
     if (!res.ok) return [];
     return await res.json();
   } catch (error) {
@@ -117,7 +159,7 @@ export const misReservas = async () => {
 // -----------------------------
 export const horariosOcupados = async () => {
   try {
-    const res = await fetch(`${API_URL}ocupadas/`);
+    const res = await fetch(`${RESERVAS_URL}ocupadas/`);
     if (!res.ok) return [];
     return await res.json();
   } catch (error) {

@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
-import canchaVideo from "../assets/cancha.mp4"; // tu video
+import canchaVideo from "../assets/cancha.mp4";
+import { loginUser } from "../services/api"; // ✅ importamos la función
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,44 +16,29 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    try {
-      const res = await fetch("http://127.0.0.1:8000/api/auth/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+    const res = await loginUser({ username, password });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Credenciales incorrectas");
-
-      localStorage.setItem("access", data.access);
-      localStorage.setItem("refresh", data.refresh);
-      localStorage.setItem("username", username);
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
+    if (res.error) {
+      setError(res.error);
+      return;
     }
+
+    navigate("/"); // Redirige al home
   };
 
   return (
     <div className="login-fullscreen">
-
-      {/* Video de fondo */}
       <video autoPlay loop muted className="video-bg">
         <source src={canchaVideo} type="video/mp4" />
         Tu navegador no soporta videos.
       </video>
 
-      {/* Contenido flotante */}
       <div className="overlay-content">
-
-        {/* Texto profesional a la izquierda */}
         <div className="overlay-text professional-text">
           <h1>Complejo de Fútbol</h1>
           <p>Gestión y reservas de canchas de manera sencilla y profesional</p>
         </div>
 
-        {/* Formulario centrado */}
         <div className="login-card w-100">
           <h3 className="text-center mb-4">Iniciar sesión</h3>
 
@@ -94,7 +80,6 @@ const Login = () => {
             </button>
           </form>
         </div>
-
       </div>
     </div>
   );
