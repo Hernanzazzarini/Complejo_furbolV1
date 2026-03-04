@@ -1,5 +1,10 @@
 // src/services/api.js
-const API_URL = "http://127.0.0.1:8000/api/reservas/";
+
+// 👉 Base URL desde variable de entorno de Vercel (Vite)
+const API_BASE = import.meta.env.VITE_API_URL;
+
+// 👉 Endpoint real de reservas
+const API_URL = `${API_BASE}/reservas/`;
 
 // -----------------------------
 // Headers con token JWT
@@ -113,6 +118,7 @@ export const misReservas = async () => {
 export const horariosOcupados = async () => {
   try {
     const res = await fetch(`${API_URL}ocupadas/`);
+    if (!res.ok) return [];
     return await res.json();
   } catch (error) {
     console.error(error);
