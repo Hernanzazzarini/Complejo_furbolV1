@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+from decouple import config
+import dj_database_url
+
+ALLOWED_HOSTS = ['complejo-furbolv1.onrender.com']
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +33,7 @@ SECRET_KEY = 'django-insecure-o85o3p_t@wl4ld9n-@=21k1-e(od12_uw=j5y2k0@vp&)v9j3m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -84,12 +91,19 @@ WSGI_APPLICATION = 'complejo_futbol.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        config('DATABASE_URL')
+    )
 }
 
+# Permitir tu dominio
+ALLOWED_HOSTS = [
+    'complejo-furbolv1.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
+
+DEBUG = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
