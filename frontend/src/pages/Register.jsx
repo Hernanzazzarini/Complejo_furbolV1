@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
-import canchaVideo from "../assets/cancha.mp4"; // tu video
+import canchaVideo from "../assets/cancha.mp4"; // video de fondo
+import { registerUser } from "../services/api"; // ✅ importamos la función de registro
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -26,30 +27,19 @@ const Register = () => {
     setError("");
     setSuccess("");
 
-    try {
-      const res = await fetch("http://127.0.0.1:8000/api/auth/register/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+    const res = await registerUser(form);
 
-      const data = await res.json();
-
-      if (!res.ok)
-        throw new Error(
-          data.username?.[0] || data.password?.[0] || JSON.stringify(data)
-        );
-
-      setSuccess("Usuario creado correctamente. Redirigiendo al login...");
-      setTimeout(() => navigate("/login"), 2000);
-    } catch (err) {
-      setError(err.message);
+    if (res.error) {
+      setError(res.error);
+      return;
     }
+
+    setSuccess("Usuario creado correctamente. Redirigiendo al login...");
+    setTimeout(() => navigate("/login"), 2000);
   };
 
   return (
     <div className="register-fullscreen">
-
       {/* Video de fondo */}
       <video autoPlay loop muted className="video-bg">
         <source src={canchaVideo} type="video/mp4" />
@@ -66,7 +56,6 @@ const Register = () => {
           {success && <div className="alert alert-success text-center">{success}</div>}
 
           <form onSubmit={handleSubmit}>
-
             <div className="mb-3 position-relative">
               <input
                 name="username"
@@ -138,7 +127,6 @@ const Register = () => {
           </form>
         </div>
       </div>
-
     </div>
   );
 };
