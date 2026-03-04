@@ -1,7 +1,5 @@
 // src/services/api.js
-
-const API_BASE = import.meta.env.VITE_API_URL;
-const API_URL = `${API_BASE}/reservas/`;
+const API_URL = "http://127.0.0.1:8000/api/reservas/";
 
 // -----------------------------
 // Headers con token JWT
