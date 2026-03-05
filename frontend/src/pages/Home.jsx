@@ -27,9 +27,6 @@ const Home = () => {
     { inicio: "23:00", fin: "23:50" },
   ];
 
-  // -----------------------------
-  // Cargar reservas ocupadas
-  // -----------------------------
   const cargarReservas = async () => {
     const data = await horariosOcupados();
     setReservas(data);
@@ -49,11 +46,7 @@ const Home = () => {
 
   const normalizarHora = (hora) => (hora ? hora.slice(0, 5) : "");
 
-  // -----------------------------
-  // Crear reserva
-  // -----------------------------
   const handleCrear = async () => {
-    // Validaciones front-end
     if (!form.nombre) {
       setMensaje("Ingresa tu nombre.");
       return;
@@ -98,10 +91,9 @@ const Home = () => {
       return;
     }
 
-    // Enviar datos a la API, normalizando el teléfono
     const data = await crearReserva({
       ...form,
-      telefono: form.telefono.replace(/\D/g, ""), // solo números
+      telefono: form.telefono.replace(/\D/g, ""),
       hora_inicio: seleccion.inicio,
       hora_fin: seleccion.fin,
     });
@@ -123,15 +115,14 @@ const Home = () => {
     }
   };
 
-  // -----------------------------
-  // Cancelar reserva
-  // -----------------------------
   const handleCancelar = async () => {
     if (!cancelar.codigo) {
       setMensaje("Ingresa el código de cancelación.");
       return;
     }
+
     const data = await cancelarReserva({ codigo: cancelar.codigo });
+
     if (data.mensaje) {
       setMensaje(data.mensaje);
       setCancelar({ codigo: "" });
@@ -141,18 +132,22 @@ const Home = () => {
     }
   };
 
-  // -----------------------------
-  // Renderizar cronograma
-  // -----------------------------
   const renderDiagrama = () => {
     if (!form.fecha)
-      return <p className="text-center">Selecciona una fecha para ver el cronograma</p>;
+      return (
+        <p className="text-center">
+          Selecciona una fecha para ver el cronograma
+        </p>
+      );
 
     const reservasDelDia = reservas.filter((r) => r.fecha === form.fecha);
 
     return (
       <div className="cronograma">
-        <h5 className="text-center mb-3">Cronograma de reservas - {form.fecha}</h5>
+        <h5 className="text-center mb-3">
+          Cronograma de reservas - {form.fecha}
+        </h5>
+
         <div className="grid-cronograma">
           {horariosFijos.map((h) => {
             const ocupada = reservasDelDia.find(
@@ -160,17 +155,23 @@ const Home = () => {
                 normalizarHora(r.hora_inicio) === h.inicio &&
                 normalizarHora(r.hora_fin) === h.fin
             );
+
             return (
               <div
                 key={h.inicio}
                 className={`bloque ${ocupada ? "ocupado" : "libre"}`}
               >
-                <span className="hora">{h.inicio} - {h.fin}</span>
-                <span className="nombre">{ocupada ? ocupada.nombre : "Libre"}</span>
+                <span className="hora">
+                  {h.inicio} - {h.fin}
+                </span>
+                <span className="nombre">
+                  {ocupada ? ocupada.nombre : "Libre"}
+                </span>
               </div>
             );
           })}
         </div>
+
         <div className="leyenda">
           <span className="libre-leyenda">Libre</span>
           <span className="ocupado-leyenda">Ocupado</span>
@@ -182,7 +183,19 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="hero">
-        <video className="video-hero" src={canchaVideo} autoPlay muted loop />
+
+        {/* ✅ VIDEO CORREGIDO */}
+        <video
+          className="video-hero"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src={canchaVideo} type="video/mp4" />
+          Tu navegador no soporta videos.
+        </video>
+
         <div className="hero-text">
           <h1>Complejo de Futbol 5</h1>
           <p>Selecciona tu fecha y horario disponible</p>
@@ -193,51 +206,68 @@ const Home = () => {
         <div className="formulario">
           <div className="card-form">
             <h4>Crear reserva</h4>
+
             <input
               name="nombre"
               placeholder="Nombre"
               value={form.nombre}
               onChange={handleChange}
             />
+
             <input
               name="telefono"
               placeholder="Teléfono (solo números)"
               value={form.telefono}
               onChange={handleChange}
             />
+
             <input
               name="email"
               placeholder="Email (opcional)"
               value={form.email}
               onChange={handleChange}
             />
+
             <input
               type="date"
               name="fecha"
               value={form.fecha}
               onChange={handleChange}
             />
-            <select name="hora_inicio" value={form.hora_inicio} onChange={handleChange}>
+
+            <select
+              name="hora_inicio"
+              value={form.hora_inicio}
+              onChange={handleChange}
+            >
               <option value="">Selecciona horario</option>
+
               {horariosFijos.map((h) => {
                 const ocupado = reservas.find(
                   (r) =>
                     r.fecha === form.fecha &&
                     normalizarHora(r.hora_inicio) === h.inicio
                 );
+
                 return (
-                  <option key={h.inicio} value={h.inicio} disabled={!!ocupado}>
+                  <option
+                    key={h.inicio}
+                    value={h.inicio}
+                    disabled={!!ocupado}
+                  >
                     {h.inicio} - {h.fin} {ocupado ? "(Ocupado)" : ""}
                   </option>
                 );
               })}
             </select>
+
             <textarea
               name="comentario"
               placeholder="Comentario (opcional)"
               value={form.comentario}
               onChange={handleChange}
             />
+
             <button className="btn-reservar" onClick={handleCrear}>
               Reservar
             </button>
@@ -245,11 +275,13 @@ const Home = () => {
 
           <div className="card-form">
             <h4>Cancelar reserva</h4>
+
             <input
               placeholder="Código de cancelación"
               value={cancelar.codigo}
               onChange={(e) => setCancelar({ codigo: e.target.value })}
             />
+
             <button className="btn-cancelar" onClick={handleCancelar}>
               Cancelar reserva
             </button>
@@ -258,14 +290,14 @@ const Home = () => {
           {mensaje && <div className="mensaje">{mensaje}</div>}
         </div>
 
-        <div className="cronograma-container">{renderDiagrama()}</div>
+        <div className="cronograma-container">
+          {renderDiagrama()}
+        </div>
       </div>
 
-      {/* -----------------------------
-          Sección mapa
-      ----------------------------- */}
       <div className="mapa-container">
         <h3 className="mapa-titulo">📍 Cómo llegar al complejo</h3>
+
         <div className="mapa-wrapper">
           <iframe
             title="Ubicación del complejo"

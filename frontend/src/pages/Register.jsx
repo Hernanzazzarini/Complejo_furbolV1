@@ -41,7 +41,7 @@ const Register = () => {
   return (
     <div className="register-fullscreen">
       {/* Video de fondo */}
-      <video autoPlay loop muted className="video-bg">
+      <video autoPlay loop muted playsInline className="video-bg">
         <source src={canchaVideo} type="video/mp4" />
         Tu navegador no soporta videos.
       </video>
