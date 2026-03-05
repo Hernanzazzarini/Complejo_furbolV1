@@ -1,15 +1,15 @@
-/* Contenedor principal ocupa toda la pantalla */
+/* Contenedor principal ocupa toda la pantalla y centra el contenido */
 .register-fullscreen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Video de fondo */
+/* Video de fondo cubre toda la pantalla */
 .video-bg {
   position: fixed;
   top: 0;
@@ -21,12 +21,12 @@
   filter: brightness(0.5);
 }
 
-/* Formulario centrado */
+/* Panel centrado */
 .register-center-panel {
   position: relative;
   z-index: 1;
-  width: 100%;
   max-width: 400px;
+  width: 100%;
   margin: 0 20px;
   opacity: 0;
   transform: translateY(30px);
@@ -34,7 +34,7 @@
   animation-delay: 0.3s;
 }
 
-/* Card del registro */
+/* Card del formulario */
 .register-card {
   background: rgba(255, 255, 255, 0.95);
   padding: 2rem;

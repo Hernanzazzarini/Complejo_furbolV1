@@ -1,8 +1,9 @@
 // src/pages/Register.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Register.css"; 
-import { registerUser } from "../services/api";
+import "../styles/Register.css";
+import canchaVideo from "../assets/cancha.mp4"; // video de fondo
+import { registerUser } from "../services/api"; // función de registro
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -39,9 +40,9 @@ const Register = () => {
 
   return (
     <div className="register-fullscreen">
-      {/* Video de fondo desde public */}
+      {/* Video de fondo */}
       <video autoPlay loop muted playsInline className="video-bg">
-        <source src="/cancha.mp4" type="video/mp4" />
+        <source src={canchaVideo} type="video/mp4" />
         Tu navegador no soporta videos.
       </video>
 
