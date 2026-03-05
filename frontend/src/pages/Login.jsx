@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 import canchaVideo from "../assets/cancha.mp4";
-import { loginUser } from "../services/api"; // ✅ importamos la función
+import { loginUser } from "../services/api";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -23,12 +23,20 @@ const Login = () => {
       return;
     }
 
-    navigate("/"); // Redirige al home
+    navigate("/");
   };
 
   return (
     <div className="login-fullscreen">
-      <video autoPlay loop muted className="video-bg">
+
+      {/* Video de fondo */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="video-bg"
+      >
         <source src={canchaVideo} type="video/mp4" />
         Tu navegador no soporta videos.
       </video>
@@ -42,7 +50,9 @@ const Login = () => {
         <div className="login-card w-100">
           <h3 className="text-center mb-4">Iniciar sesión</h3>
 
-          {error && <div className="alert alert-danger text-center">{error}</div>}
+          {error && (
+            <div className="alert alert-danger text-center">{error}</div>
+          )}
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3 position-relative">
@@ -69,7 +79,9 @@ const Login = () => {
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
-                title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                title={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
               >
                 {showPassword ? "🙈" : "👁️"}
               </span>
