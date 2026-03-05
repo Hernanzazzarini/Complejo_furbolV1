@@ -1,11 +1,12 @@
 /* Contenedor principal ocupa toda la pantalla */
 .register-fullscreen {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  justify-content: center; align-items: center;
-  
+  position: relative;
 }
 
 /* Video de fondo */
@@ -23,7 +24,7 @@
 /* Formulario centrado */
 .register-center-panel {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   width: 100%;
   max-width: 400px;
   margin: 0 20px;
@@ -35,10 +36,10 @@
 
 /* Card del registro */
 .register-card {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Iconos dentro del input */
