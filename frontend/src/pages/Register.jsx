@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
-import fondo from "../assets/pelotadefultbo.jpeg"; // imagen de fondo
-import { registerUser } from "../services/api";
+import canchaVideo from "../assets/cancha.mp4"; // video de fondo
+import { registerUser } from "../services/api"; // función de registro
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -13,11 +13,9 @@ const Register = () => {
     last_name: "",
     password: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -41,15 +39,16 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="register-fullscreen"
-      style={{ backgroundImage: `url(${fondo})` }}
-    >
-      <div className="register-overlay"></div>
+    <div className="register-fullscreen">
+      {/* Video de fondo */}
+      <video autoPlay loop muted playsInline className="video-bg">
+        <source src={canchaVideo} type="video/mp4" />
+        Tu navegador no soporta videos.
+      </video>
 
+      {/* Formulario centrado */}
       <div className="register-center-panel">
         <div className="register-card">
-
           <h2 className="text-center mb-3">Complejo de Fútbol</h2>
           <p className="text-center mb-4">Registro de usuario</p>
 
@@ -57,7 +56,6 @@ const Register = () => {
           {success && <div className="alert alert-success text-center">{success}</div>}
 
           <form onSubmit={handleSubmit}>
-
             <div className="mb-3 position-relative">
               <input
                 name="username"
@@ -113,9 +111,7 @@ const Register = () => {
                 onChange={handleChange}
                 required
               />
-
               <span className="input-icon">🔑</span>
-
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
@@ -123,13 +119,11 @@ const Register = () => {
               >
                 {showPassword ? "🙈" : "👁️"}
               </span>
-
             </div>
 
             <button type="submit" className="btn btn-primary w-100">
               Registrar
             </button>
-
           </form>
         </div>
       </div>
