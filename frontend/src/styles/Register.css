@@ -1,57 +1,56 @@
-/* pantalla completa con imagen */
+/* Contenedor principal ocupa toda la pantalla y centra el contenido */
 .register-fullscreen {
   position: relative;
   width: 100vw;
   height: 100vh;
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* capa oscura encima de la imagen */
-.register-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.55);
+/* Video de fondo cubre toda la pantalla */
+.video-bg {
+  position: fixed;
   top: 0;
   left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.5);
 }
 
-/* panel centrado */
+/* Panel centrado */
 .register-center-panel {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  max-width: 400px;
   width: 100%;
-  max-width: 420px;
-  padding: 20px;
-
-  animation: fadeInUp 0.8s ease;
+  margin: 0 20px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.3s;
 }
 
-/* tarjeta */
+/* Card del formulario */
 .register-card {
-  background: rgba(255,255,255,0.95);
-  padding: 35px;
-  border-radius: 14px;
-
-  box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
-/* iconos */
+/* Iconos dentro del input */
 .input-icon {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-/* mostrar contraseña */
+/* Toggle de contraseña */
 .password-toggle {
   position: absolute;
   right: 35px;
@@ -60,24 +59,25 @@
   cursor: pointer;
 }
 
-/* animación entrada */
+/* Animación del formulario */
 @keyframes fadeInUp {
-  from {
+  0% {
     opacity: 0;
     transform: translateY(30px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-
-/* responsive */
+/* Responsivo */
 @media (max-width: 768px) {
-
   .register-card {
-    padding: 25px;
+    padding: 1.5rem;
   }
 
+  .register-center-panel {
+    max-width: 90%;
+  }
 }
