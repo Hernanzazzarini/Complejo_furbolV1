@@ -1,86 +1,47 @@
-/* Pantalla completa */
-.register-fullscreen {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+.register-fullscreen{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
 }
 
-/* Imagen de fondo */
-.background-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-  filter: brightness(0.5);
+.background-image{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+  filter:brightness(0.5);
 }
 
-/* Panel centrado */
-.register-center-panel {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 20px;
-
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeInUp 0.9s ease forwards;
+.register-center-panel{
+  width:100%;
+  max-width:400px;
 }
 
-/* Card del formulario */
-.register-card {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+.register-card{
+  background:rgba(255,255,255,0.95);
+  padding:2rem;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
 }
 
-/* Iconos dentro del input */
-.input-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
+.input-icon{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
 }
 
-/* Mostrar contraseña */
-.password-toggle {
-  position: absolute;
-  right: 35px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
-/* Animación */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-
-  .register-card {
-    padding: 1.5rem;
-  }
-
-  .register-center-panel {
-    max-width: 90%;
-  }
-
+.password-toggle{
+  position:absolute;
+  right:35px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
 }
