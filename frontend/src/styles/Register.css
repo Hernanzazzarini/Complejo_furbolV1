@@ -1,16 +1,16 @@
-/* Contenedor principal ocupa toda la pantalla y centra el contenido */
+/* Pantalla completa */
 .register-fullscreen {
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
-/* Video de fondo cubre toda la pantalla */
-.video-bg {
+/* Imagen de fondo */
+.background-image {
   position: fixed;
   top: 0;
   left: 0;
@@ -25,32 +25,33 @@
 .register-center-panel {
   position: relative;
   z-index: 1;
-  max-width: 400px;
   width: 100%;
+  max-width: 400px;
   margin: 0 20px;
+
   opacity: 0;
   transform: translateY(30px);
-  animation: fadeInUp 1s ease forwards;
-  animation-delay: 0.3s;
+  animation: fadeInUp 0.9s ease forwards;
 }
 
 /* Card del formulario */
 .register-card {
   background: rgba(255, 255, 255, 0.95);
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 /* Iconos dentro del input */
 .input-icon {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 14px;
 }
 
-/* Toggle de contraseña */
+/* Mostrar contraseña */
 .password-toggle {
   position: absolute;
   right: 35px;
@@ -59,20 +60,21 @@
   cursor: pointer;
 }
 
-/* Animación del formulario */
+/* Animación */
 @keyframes fadeInUp {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(30px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Responsivo */
+/* Responsive */
 @media (max-width: 768px) {
+
   .register-card {
     padding: 1.5rem;
   }
@@ -80,4 +82,5 @@
   .register-center-panel {
     max-width: 90%;
   }
+
 }
