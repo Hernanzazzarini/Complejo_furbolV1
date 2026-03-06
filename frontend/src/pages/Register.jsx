@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
-import fondo from "../assets/pelotadefutbol.jpg";   // 👈 IMPORTANTE
-import { registerUser } from "../services/api";
+import fondo from "../assets/pelotadefutbol.jpg"; // ✅ imagen de fondo
+import { registerUser } from "../services/api"; // función de registro
 
 const Register = () => {
-
-  const navigate = useNavigate();
-
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -15,21 +12,17 @@ const Register = () => {
     last_name: "",
     password: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setError("");
     setSuccess("");
 
@@ -41,22 +34,17 @@ const Register = () => {
     }
 
     setSuccess("Usuario creado correctamente. Redirigiendo al login...");
-
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+    setTimeout(() => navigate("/login"), 2000);
   };
 
   return (
     <div className="register-fullscreen">
-
       {/* Imagen de fondo */}
-      <img src={fondo} className="background-image" />
+      <img src={fondo} className="background-image" alt="fondo futbol" />
 
+      {/* Formulario centrado */}
       <div className="register-center-panel">
-
         <div className="register-card">
-
           <h2 className="text-center mb-3">Complejo de Fútbol</h2>
           <p className="text-center mb-4">Registro de usuario</p>
 
@@ -64,7 +52,6 @@ const Register = () => {
           {success && <div className="alert alert-success text-center">{success}</div>}
 
           <form onSubmit={handleSubmit}>
-
             <div className="mb-3 position-relative">
               <input
                 name="username"
@@ -121,26 +108,21 @@ const Register = () => {
                 required
               />
               <span className="input-icon">🔑</span>
-
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               >
                 {showPassword ? "🙈" : "👁️"}
               </span>
-
             </div>
 
-            <button className="btn btn-primary w-100">
+            <button type="submit" className="btn btn-primary w-100">
               Registrar
             </button>
-
           </form>
-
         </div>
-
       </div>
-
     </div>
   );
 };
