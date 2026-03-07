@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
-import fondo from "../assets/pelotadefutbol.jpg"; // ✅ imagen de fondo
+//import fondo from "../assets/pelotadefutbol.jpg"; // ✅ imagen de fondo
 import { registerUser } from "../services/api"; // función de registro
 
 const Register = () => {
@@ -40,7 +40,9 @@ const Register = () => {
   return (
     <div className="register-fullscreen">
       {/* Imagen de fondo */}
-      <img src={fondo} className="background-image" alt="fondo futbol" />
+      <img src="/pelotadefutbol.jpg" className="background-image" alt="fondo futbol" />
+
+      
 
       {/* Formulario centrado */}
       <div className="register-center-panel">
