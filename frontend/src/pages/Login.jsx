@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
-import canchaVideo from "../assets/cancha.mp4";
 import { loginUser } from "../services/api";
 
 const Login = () => {
@@ -27,38 +26,23 @@ const Login = () => {
   };
 
   return (
-    <div className="login-fullscreen">
-
-      {/* Video de fondo */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="video-bg"
-      >
-        <source src={canchaVideo} type="video/mp4" />
-        Tu navegador no soporta videos.
-      </video>
-
-      <div className="overlay-content">
-        <div className="overlay-text professional-text">
+    <div className="login-fullscreen-professional">
+      <div className="login-center-panel-professional">
+        <div className="login-header">
           <h1>Complejo de Fútbol</h1>
           <p>Gestión y reservas de canchas de manera sencilla y profesional</p>
         </div>
 
-        <div className="login-card w-100">
+        <div className="login-card-professional">
           <h3 className="text-center mb-4">Iniciar sesión</h3>
 
-          {error && (
-            <div className="alert alert-danger text-center">{error}</div>
-          )}
+          {error && <div className="alert alert-danger text-center">{error}</div>}
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3 position-relative">
               <input
-                className="form-control"
-                placeholder="Ingresá tu usuario"
+                className="form-control professional-input"
+                placeholder="Usuario"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -68,9 +52,9 @@ const Login = () => {
 
             <div className="mb-4 position-relative">
               <input
-                className="form-control"
+                className="form-control professional-input"
                 type={showPassword ? "text" : "password"}
-                placeholder="Ingresá tu contraseña"
+                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -79,15 +63,13 @@ const Login = () => {
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
-                title={
-                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-                }
+                title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               >
                 {showPassword ? "🙈" : "👁️"}
               </span>
             </div>
 
-            <button type="submit" className="btn btn-success w-100 py-2">
+            <button type="submit" className="btn btn-primary w-100 professional-btn">
               Entrar
             </button>
           </form>
