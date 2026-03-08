@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { crearReserva, cancelarReserva, horariosOcupados } from "../services/api";
 import "../styles/Home.css";
-import canchaVideo from "../assets/cancha.mp4";
 
 const Home = () => {
   const [reservas, setReservas] = useState([]);
@@ -47,49 +46,27 @@ const Home = () => {
   const normalizarHora = (hora) => (hora ? hora.slice(0, 5) : "");
 
   const handleCrear = async () => {
-    if (!form.nombre) {
-      setMensaje("Ingresa tu nombre.");
-      return;
-    }
-
-    if (!form.telefono) {
-      setMensaje("Ingresa tu teléfono.");
-      return;
-    }
-
+    if (!form.nombre) { setMensaje("Ingresa tu nombre."); return; }
+    if (!form.telefono) { setMensaje("Ingresa tu teléfono."); return; }
     if (!/^\d{8,15}$/.test(form.telefono.replace(/\D/g, ""))) {
-      setMensaje("Ingresa un teléfono válido (solo números, 8 a 15 dígitos).");
-      return;
+      setMensaje("Ingresa un teléfono válido (8-15 dígitos)."); return;
     }
-
-    if (!form.fecha || !form.hora_inicio) {
-      setMensaje("Selecciona fecha y horario.");
-      return;
-    }
+    if (!form.fecha || !form.hora_inicio) { setMensaje("Selecciona fecha y horario."); return; }
 
     const seleccion = horariosFijos.find((h) => h.inicio === form.hora_inicio);
-    if (!seleccion) {
-      setMensaje("Horario inválido.");
-      return;
-    }
+    if (!seleccion) { setMensaje("Horario inválido."); return; }
 
     const inicioNueva = horaAMinutos(seleccion.inicio);
     const finNueva = horaAMinutos(seleccion.fin);
-
     const reservasDelDia = reservas.filter((r) => r.fecha === form.fecha);
 
     const conflicto = reservasDelDia.find(
       (r) =>
-        !(
-          finNueva <= horaAMinutos(normalizarHora(r.hora_inicio)) ||
-          inicioNueva >= horaAMinutos(normalizarHora(r.hora_fin))
-        )
+        !(finNueva <= horaAMinutos(normalizarHora(r.hora_inicio)) ||
+          inicioNueva >= horaAMinutos(normalizarHora(r.hora_fin)))
     );
 
-    if (conflicto) {
-      setMensaje("Ya hay una reserva en ese horario.");
-      return;
-    }
+    if (conflicto) { setMensaje("Ya hay una reserva en ese horario."); return; }
 
     const data = await crearReserva({
       ...form,
@@ -101,14 +78,7 @@ const Home = () => {
     if (data.codigo_cancelacion) {
       setCodigoReserva(data.codigo_cancelacion);
       setMensaje("Reserva confirmada. Tu código: " + data.codigo_cancelacion);
-      setForm({
-        nombre: "",
-        telefono: "",
-        email: "",
-        fecha: "",
-        hora_inicio: "",
-        comentario: "",
-      });
+      setForm({ nombre: "", telefono: "", email: "", fecha: "", hora_inicio: "", comentario: "" });
       cargarReservas();
     } else {
       setMensaje(data.error || "Error al crear reserva");
@@ -116,10 +86,7 @@ const Home = () => {
   };
 
   const handleCancelar = async () => {
-    if (!cancelar.codigo) {
-      setMensaje("Ingresa el código de cancelación.");
-      return;
-    }
+    if (!cancelar.codigo) { setMensaje("Ingresa el código de cancelación."); return; }
 
     const data = await cancelarReserva({ codigo: cancelar.codigo });
 
@@ -133,21 +100,13 @@ const Home = () => {
   };
 
   const renderDiagrama = () => {
-    if (!form.fecha)
-      return (
-        <p className="text-center">
-          Selecciona una fecha para ver el cronograma
-        </p>
-      );
+    if (!form.fecha) return <p className="text-center">Selecciona una fecha para ver el cronograma</p>;
 
     const reservasDelDia = reservas.filter((r) => r.fecha === form.fecha);
 
     return (
       <div className="cronograma">
-        <h5 className="text-center mb-3">
-          Cronograma de reservas - {form.fecha}
-        </h5>
-
+        <h5 className="text-center mb-3">Cronograma de reservas - {form.fecha}</h5>
         <div className="grid-cronograma">
           {horariosFijos.map((h) => {
             const ocupada = reservasDelDia.find(
@@ -157,16 +116,9 @@ const Home = () => {
             );
 
             return (
-              <div
-                key={h.inicio}
-                className={`bloque ${ocupada ? "ocupado" : "libre"}`}
-              >
-                <span className="hora">
-                  {h.inicio} - {h.fin}
-                </span>
-                <span className="nombre">
-                  {ocupada ? ocupada.nombre : "Libre"}
-                </span>
+              <div key={h.inicio} className={`bloque ${ocupada ? "ocupado" : "libre"}`}>
+                <span className="hora">{h.inicio} - {h.fin}</span>
+                <span className="nombre">{ocupada ? ocupada.nombre : "Libre"}</span>
               </div>
             );
           })}
@@ -181,21 +133,11 @@ const Home = () => {
   };
 
   return (
-    <div className="home-container">
-      <div className="hero">
+    <div className="home-container-professional">
 
-        {/* ✅ VIDEO CORREGIDO */}
-        <video
-          className="video-hero"
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src={canchaVideo} type="video/mp4" />
-          Tu navegador no soporta videos.
-        </video>
-
+      {/* HERO con imagen Cloudinary */}
+      <div className="hero-professional">
+        <div className="hero-overlay"></div>
         <div className="hero-text">
           <h1>Complejo de Futbol 5</h1>
           <p>Selecciona tu fecha y horario disponible</p>
@@ -207,84 +149,29 @@ const Home = () => {
           <div className="card-form">
             <h4>Crear reserva</h4>
 
-            <input
-              name="nombre"
-              placeholder="Nombre"
-              value={form.nombre}
-              onChange={handleChange}
-            />
-
-            <input
-              name="telefono"
-              placeholder="Teléfono (solo números)"
-              value={form.telefono}
-              onChange={handleChange}
-            />
-
-            <input
-              name="email"
-              placeholder="Email (opcional)"
-              value={form.email}
-              onChange={handleChange}
-            />
-
-            <input
-              type="date"
-              name="fecha"
-              value={form.fecha}
-              onChange={handleChange}
-            />
-
-            <select
-              name="hora_inicio"
-              value={form.hora_inicio}
-              onChange={handleChange}
-            >
+            <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} />
+            <input name="telefono" placeholder="Teléfono (solo números)" value={form.telefono} onChange={handleChange} />
+            <input name="email" placeholder="Email (opcional)" value={form.email} onChange={handleChange} />
+            <input type="date" name="fecha" value={form.fecha} onChange={handleChange} />
+            <select name="hora_inicio" value={form.hora_inicio} onChange={handleChange}>
               <option value="">Selecciona horario</option>
-
               {horariosFijos.map((h) => {
-                const ocupado = reservas.find(
-                  (r) =>
-                    r.fecha === form.fecha &&
-                    normalizarHora(r.hora_inicio) === h.inicio
-                );
-
+                const ocupado = reservas.find(r => r.fecha === form.fecha && normalizarHora(r.hora_inicio) === h.inicio);
                 return (
-                  <option
-                    key={h.inicio}
-                    value={h.inicio}
-                    disabled={!!ocupado}
-                  >
+                  <option key={h.inicio} value={h.inicio} disabled={!!ocupado}>
                     {h.inicio} - {h.fin} {ocupado ? "(Ocupado)" : ""}
                   </option>
                 );
               })}
             </select>
-
-            <textarea
-              name="comentario"
-              placeholder="Comentario (opcional)"
-              value={form.comentario}
-              onChange={handleChange}
-            />
-
-            <button className="btn-reservar" onClick={handleCrear}>
-              Reservar
-            </button>
+            <textarea name="comentario" placeholder="Comentario (opcional)" value={form.comentario} onChange={handleChange} />
+            <button className="btn-reservar" onClick={handleCrear}>Reservar</button>
           </div>
 
           <div className="card-form">
             <h4>Cancelar reserva</h4>
-
-            <input
-              placeholder="Código de cancelación"
-              value={cancelar.codigo}
-              onChange={(e) => setCancelar({ codigo: e.target.value })}
-            />
-
-            <button className="btn-cancelar" onClick={handleCancelar}>
-              Cancelar reserva
-            </button>
+            <input placeholder="Código de cancelación" value={cancelar.codigo} onChange={(e) => setCancelar({ codigo: e.target.value })} />
+            <button className="btn-cancelar" onClick={handleCancelar}>Cancelar reserva</button>
           </div>
 
           {mensaje && <div className="mensaje">{mensaje}</div>}
@@ -297,7 +184,6 @@ const Home = () => {
 
       <div className="mapa-container">
         <h3 className="mapa-titulo">📍 Cómo llegar al complejo</h3>
-
         <div className="mapa-wrapper">
           <iframe
             title="Ubicación del complejo"
